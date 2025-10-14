@@ -19,10 +19,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -37,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -70,8 +73,10 @@ fun DiceRollerApp() {
 @Composable
 fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
 
-    var result by remember { mutableStateOf( 1) }
-    val imageResource = when(result) {
+    var result1 by remember { mutableStateOf(1) }
+    var result2 by remember { mutableStateOf(1) }
+
+    val imageResource1 = when (result1) {
         1 -> R.drawable.dice_1
         2 -> R.drawable.dice_2
         3 -> R.drawable.dice_3
@@ -79,13 +84,85 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
         5 -> R.drawable.dice_5
         else -> R.drawable.dice_6
     }
-    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Image(painter = painterResource(imageResource), contentDescription = result.toString())
-        
-        Button(
-            onClick = { result = (1..6).random() },
+
+    val imageResource2 = when (result2) {
+        1 -> R.drawable.dice_1
+        2 -> R.drawable.dice_2
+        3 -> R.drawable.dice_3
+        4 -> R.drawable.dice_4
+        5 -> R.drawable.dice_5
+        else -> R.drawable.dice_6
+    }
+
+    val sumResults = result1 + result2
+
+    // Contenedor principal centrado
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+
+        // Row con los dos dados
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = stringResource(R.string.roll), fontSize = 24.sp)
+            // Dado 1
+            Column(
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(imageResource1),
+                    contentDescription = result1.toString()
+                )
+
+                Button(
+                    onClick = { result1 = (1..6).random() }
+                ) {
+                    Text(text = stringResource(R.string.roll), fontSize = 20.sp)
+                }
+            }
+
+            // Dado 2
+            Column(
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(imageResource2),
+                    contentDescription = result2.toString()
+                )
+
+                Button(
+                    onClick = { result2 = (1..6).random() }
+                ) {
+                    Text(text = stringResource(R.string.roll), fontSize = 20.sp)
+                }
+            }
         }
+
+        // Botón para tirar ambos dados
+        Button(
+            onClick = {
+                result1 = (1..6).random()
+                result2 = (1..6).random()
+            },
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            Text(text = "Roll both", fontSize = 22.sp)
+        }
+
+        // Texto con la suma centrado debajo
+        Text(
+            text = "Suma: $sumResults",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(top = 16.dp)
+        )
     }
 }
