@@ -22,9 +22,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -105,7 +107,7 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
 
-        // Row con los dos dados
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
@@ -118,7 +120,9 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
             ) {
                 Image(
                     painter = painterResource(imageResource1),
-                    contentDescription = result1.toString()
+                    contentDescription = result1.toString(),
+                    // solución temporal respecto al tamaño de la imagen
+                    modifier = Modifier.size(170.dp)
                 )
 
                 Button(
@@ -135,7 +139,9 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
             ) {
                 Image(
                     painter = painterResource(imageResource2),
-                    contentDescription = result2.toString()
+                    contentDescription = result2.toString(),
+                    modifier = Modifier.size(170.dp)
+
                 )
 
                 Button(
